@@ -29,6 +29,8 @@ class MesajlarRepository {
     )
   ];
 
+  int yeniMesajSayisi = 4;
+
 }
 
 class Mesaj {
