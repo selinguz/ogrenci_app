@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:ogrenci_app/pages/mesajlar_sayfasi.dart';
 import 'package:ogrenci_app/pages/ogrenciler_sayfasi.dart';
 import 'package:ogrenci_app/pages/ogretmenler_sayfasi.dart';
+import 'package:ogrenci_app/repository/mesajlar_repository.dart';
+import 'package:ogrenci_app/repository/ogrenciler_repository.dart';
+import 'package:ogrenci_app/repository/ogretmenler_repository.dart';
 
 void main() {
   runApp(const OgrenciApp());
@@ -23,8 +26,18 @@ class OgrenciApp extends StatelessWidget {
   }
 }
 
-class AnaSayfa extends StatelessWidget {
+class AnaSayfa extends StatefulWidget {
   const AnaSayfa({super.key});
+
+  @override
+  State<AnaSayfa> createState() => _AnaSayfaState();
+}
+
+class _AnaSayfaState extends State<AnaSayfa> {
+
+  MesajlarRepository mesajlarRepository = MesajlarRepository();
+  OgrencilerRepository ogrencilerRepository = OgrencilerRepository();
+  OgretmenlerRepository ogretmenlerRepository = OgretmenlerRepository();
 
   @override
   Widget build(BuildContext context) {
@@ -70,50 +83,52 @@ class AnaSayfa extends StatelessWidget {
               onPressed: () {
                 _mesajlaraGit(context);
               },
-              child: Text('10 Yeni Mesaj'),
+              child: Text('${mesajlarRepository.mesajlar.length} Yeni Mesaj'),
             ),
             TextButton(
               onPressed: () {
                 _ogrencilereGit(context);
               },
-              child: Text('10 Öğrenci'),
+              child: Text('${ogrencilerRepository.ogrenciler.length} Öğrenci'),
             ),
             TextButton(
               onPressed: () {
                 _ogretmenlereGit(context);
               },
-              child: Text('10 Öğretmen'),
+              child: Text('${ogretmenlerRepository.ogretmenler.length} Öğretmen'),
             ),
           ],
         ),
       ),
     );
   }
+
+  void _ogrencilereGit(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => OgrencilerSayfasi(ogrencilerRepository),
+      ),
+    );
+  }
+
+  void _ogretmenlereGit(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => OgretmenlerSayfasi(ogretmenlerRepository),
+      ),
+    );
+  }
+
+  void _mesajlaraGit(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => MesajlarSayfasi(mesajlarRepository),
+      ),
+    );
+  }
 }
 
-void _ogrencilereGit(BuildContext context) {
-  Navigator.push(
-    context,
-    MaterialPageRoute(
-      builder: (context) => OgrencilerSayfasi(),
-    ),
-  );
-}
 
-void _ogretmenlereGit(BuildContext context) {
-  Navigator.push(
-    context,
-    MaterialPageRoute(
-      builder: (context) => OgretmenlerSayfasi(),
-    ),
-  );
-}
-
-void _mesajlaraGit(BuildContext context) {
-  Navigator.push(
-    context,
-    MaterialPageRoute(
-      builder: (context) => MesajlarSayfasi(),
-    ),
-  );
-}
