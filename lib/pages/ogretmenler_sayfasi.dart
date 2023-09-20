@@ -27,18 +27,19 @@ class _OgretmenlerSayfasiState extends State<OgretmenlerSayfasi> {
                 child: Padding(
                   padding: const EdgeInsets.symmetric(
                       vertical: 32.0, horizontal: 32.0),
-                  child: Text('10 Öğretmen'),
+                  child: Text('${widget.ogretmenlerRepository.ogretmenler.length} '
+                      'Öğretmen'),
                 ),
               ),
             ),
             Expanded(
               child: ListView.separated(
-                  itemBuilder: (context, index) => ListTile(
-                    title: Text('Ayşe Hanım'),
-                    leading: Text('👧🏻👦',style: TextStyle(fontSize: 22),),
+                  itemBuilder: (context, index) => OgretmenSatiri(
+                      widget.ogretmenlerRepository.ogretmenler[index],widget
+                      .ogretmenlerRepository
                   ),
                   separatorBuilder: (context, index) => Divider(),
-                  itemCount: 25),
+                  itemCount: widget.ogretmenlerRepository.ogretmenler.length),
             ),
           ],
         ),
@@ -46,3 +47,30 @@ class _OgretmenlerSayfasiState extends State<OgretmenlerSayfasi> {
     );
   }
 }
+
+
+class OgretmenSatiri extends StatefulWidget {
+  final Ogretmen ogretmen;
+  final OgretmenlerRepository ogretmenlerRepository;
+
+
+  OgretmenSatiri(this.ogretmen, this.ogretmenlerRepository);
+
+  @override
+  State<OgretmenSatiri> createState() => _OgretmenSatiriState();
+}
+
+class _OgretmenSatiriState extends State<OgretmenSatiri> {
+  @override
+  Widget build(BuildContext context) {
+
+    return ListTile(
+      title: Text(widget.ogretmen.adi + ' ' + widget.ogretmen.soyadi),
+      leading: Text(
+        widget.ogretmen.cinsiyet == 'Kadın' ? '👧🏻' : '👦',
+        style: TextStyle(fontSize: 22,),
+      ),
+    );
+  }
+}
+

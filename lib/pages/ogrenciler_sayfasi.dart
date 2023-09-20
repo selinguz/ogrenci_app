@@ -3,6 +3,7 @@ import 'package:ogrenci_app/repository/ogrenciler_repository.dart';
 
 class OgrencilerSayfasi extends StatefulWidget {
   final OgrencilerRepository ogrencilerRepository;
+
   OgrencilerSayfasi(this.ogrencilerRepository);
 
   @override
@@ -27,25 +28,56 @@ class _OgrencilerSayfasiState extends State<OgrencilerSayfasi> {
                 child: Padding(
                   padding: const EdgeInsets.symmetric(
                       vertical: 32.0, horizontal: 32.0),
-                  child: Text('10 Öğrenci'),
+                  child: Text(
+                      '${widget.ogrencilerRepository.ogrenciler.length} Öğrenci'),
                 ),
               ),
             ),
             Expanded(
               child: ListView.separated(
-                  itemBuilder: (context, index) => ListTile(
-                        title: Text('Ali'),
-                        trailing: IconButton(
-                          onPressed: () {},
-                          icon: Icon(Icons.favorite_outline_outlined),
-                        ),
-                    leading: Text('👧🏻👦',style: TextStyle(fontSize: 22),),
+                  itemBuilder: (context, index) => OgrenciSatiri(
+                        widget.ogrencilerRepository.ogrenciler[index],widget.ogrencilerRepository
                       ),
                   separatorBuilder: (context, index) => Divider(),
-                  itemCount: 25),
+                  itemCount: widget.ogrencilerRepository.ogrenciler.length),
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class OgrenciSatiri extends StatefulWidget {
+  final Ogrenci ogrenci;
+  final OgrencilerRepository ogrencilerRepository;
+
+
+  OgrenciSatiri(this.ogrenci, this.ogrencilerRepository);
+
+  @override
+  State<OgrenciSatiri> createState() => _OgrenciSatiriState();
+}
+
+class _OgrenciSatiriState extends State<OgrenciSatiri> {
+  @override
+  Widget build(BuildContext context) {
+    bool seviyorMuyum = widget.ogrencilerRepository.seviyoruMuyum
+      (widget.ogrenci);
+    return ListTile(
+      title: Text(widget.ogrenci.adi + widget.ogrenci.soyadi),
+      trailing: IconButton(
+        onPressed: () {
+          setState(() {
+            widget.ogrencilerRepository.sev(widget.ogrenci, !seviyorMuyum);
+          });
+        },
+        icon: Icon(widget.ogrencilerRepository.seviyoruMuyum(widget.ogrenci) ? Icons
+            .favorite : Icons.favorite_outline),
+      ),
+      leading: Text(
+        widget.ogrenci.cinsiyet == 'Kadın' ? '👧🏻' : '👦',
+        style: TextStyle(fontSize: 22),
       ),
     );
   }

@@ -83,7 +83,7 @@ class _AnaSayfaState extends State<AnaSayfa> {
               onPressed: () {
                 _mesajlaraGit(context);
               },
-              child: Text('${mesajlarRepository.mesajlar.length} Yeni Mesaj'),
+              child: Text('${mesajlarRepository.yeniMesajSayisi} Yeni Mesaj'),
             ),
             TextButton(
               onPressed: () {
@@ -121,13 +121,16 @@ class _AnaSayfaState extends State<AnaSayfa> {
     );
   }
 
-  void _mesajlaraGit(BuildContext context) {
-    Navigator.push(
+  Future<void> _mesajlaraGit(BuildContext context) async {
+    await Navigator.push(
       context,
       MaterialPageRoute(
         builder: (context) => MesajlarSayfasi(mesajlarRepository),
       ),
     );
+    setState(() {
+
+    });
   }
 }
 

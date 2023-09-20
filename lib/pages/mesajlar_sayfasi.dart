@@ -12,6 +12,13 @@ class MesajlarSayfasi extends StatefulWidget {
 }
 
 class _MesajlarSayfasiState extends State<MesajlarSayfasi> {
+
+  @override
+  void initState() {
+    super.initState();
+    widget.mesajlarRepository.yeniMesajSayisi = 0;
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
